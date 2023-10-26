@@ -124,11 +124,6 @@ Node* List::InsertNode(string n, string m, string s, int a, string i, int d, int
 }
 
 // Continue adding the corrected code for other functions
-//
-//
-//
-//
-//
 void List::menu() {
     int choice;
     do {
@@ -177,8 +172,36 @@ void List::menu() {
 }
 
 void List::Insert() {
+    string name, rollNo;
+    cout << "Enter student name: ";
+    cin >> name;
+    cout << "Enter student roll number: ";
+    cin >> rollNo;
 
-    
+    // Create a new student node
+    Node* newNode = new Node(name, rollNo);
+
+    if (head == NULL) {
+        head = newNode;
+    } else {
+        // Find the appropriate position to insert in alphabetical order
+        Node* current = head;
+        Node* previous = NULL;
+        while (current && name > current->name) {
+            previous = current;
+            current = current->next;
+        }
+        if (previous == NULL) {
+            newNode->next = head;
+            head = newNode;
+        } else {
+            newNode->next = current;
+            previous->next = newNode;
+        }
+    }
+
+    cout << "Student information inserted successfully." << endl;
+
 }
 
 void List::Rent() {
@@ -220,7 +243,7 @@ void List::Rent() {
                 cout << item << " has been rented by " << n << "." << endl;
                 break;
             }
-            Ball.insertEq(Ball.getFront());
+            Ball.insertEq(Ball.getFront( ));
             Ball.removeEq();
         }
 
@@ -233,11 +256,32 @@ void List::Rent() {
 }
 
 int List::displayBorrower() {
-    // Your code for displaying renters goes here
-    // You'll need to iterate through the borrowHead list and display the renters.
+ if (borrowHead == NULL) {
+        cout << "No Borrowers Available." << endl;
+    } else {
+        cout << "List of Borrowers:\n";
+        Node* current = borrowHead;
+        while (current) {
+            cout << "Name: " << current->name << ", Borrowed Item: " << current->borrowedItem << endl;
+            current = current->link;
+        }
+    }
 }
 
 int List::DisplayList() {
-    // Your code for displaying the student list goes here
-    // You'll need to iterate through the head list and display student information.
+      if (head == NULL) {
+        cout << "Student list is empty." << endl;
+    } else {
+        cout << "List of Students:\n";
+        Node* current = head;
+        while (current) {
+            cout << "Name: " << current->name << ", Roll Number: " << current->rollNo;
+            if (!current->borrowedItem.empty()) {
+                cout << ", Borrowed Item: " << current->borrowedItem;
+            }
+            cout << endl;
+            current = current->next;
+        }
+    }
+
 }
