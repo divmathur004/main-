@@ -1,0 +1,111 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_MEMBERS 100
+#define MAX_RESERVATIONS 100
+
+// Structure to represent a member
+struct Member {
+    int id;
+    char name[50];
+};
+
+// Structure to represent a reservation
+struct Reservation {
+    int memberId;
+    char activity[50];
+    char time[50];
+};
+
+struct Member memberList[MAX_MEMBERS];
+struct Reservation reservationList[MAX_RESERVATIONS];
+int numMembers = 0;
+int numReservations = 0;
+
+// Function to add a new member to the system
+void addMember(char name[50]) {
+    if (numMembers < MAX_MEMBERS) {
+        struct Member newMember;
+        newMember.id = numMembers + 1;
+        strcpy(newMember.name, name);
+        memberList[numMembers++] = newMember;
+        printf("Member %s added with ID %d.\n", name, newMember.id);
+    } else {
+        printf("Maximum number of members reached.\n");
+    }
+}
+
+// Function to add a reservation
+void addReservation(int memberId, char activity[50], char time[50]) {
+    if (numReservations < MAX_RESERVATIONS) {
+        reservationList[numReservations].memberId = memberId;
+        strcpy(reservationList[numReservations].activity, activity);
+        strcpy(reservationList[numReservations].time, time);
+        numReservations++;
+        printf("Reservation added for member ID %d.\n", memberId);
+    } else {
+        printf("Maximum number of reservations reached.\n");
+    }
+}
+
+// Function to display all registered members
+void displayMembers() {
+    printf("Registered Members:\n");
+    for (int i = 0; i < numMembers; i++) {
+        printf("ID: %d, Name: %s\n", memberList[i].id, memberList[i].name);
+    }
+}
+
+// Function to display all reservations
+void displayReservations() {
+    printf("Reservations:\n");
+    for (int i = 0; i < numReservations; i++) {
+        printf("Member ID: %d, Activity: %s, Time: %s\n", reservationList[i].memberId, reservationList[i].activity, reservationList[i].time);
+    }
+}
+
+int main() {
+    int choice;
+    char name[50];
+    int memberId;
+    char activity[50];
+    char time[50];
+
+    while (1) {
+        printf("SPORT CENTRE REGISTRATION SYSTEM\n");
+        printf("1. Add Member\n");
+        printf("2. Add Reservation\n");
+        printf("3. Display Members\n");
+        printf("4. Display Reservations\n");
+        printf("5. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter the name of the member: ");
+                scanf("%s", name);
+                addMember(name);
+                break;
+            case 2:
+                printf("Enter the member ID, activity, and time (e.g., 10 Yoga 14:00): ");
+                scanf("%d %s %s", &memberId, activity, time);
+                addReservation(memberId, activity, time);
+                break;
+            case 3:
+                displayMembers();
+                break;
+            case 4:
+                displayReservations();
+                break;
+            case 5:
+                printf("Exiting the system.\n");
+                exit(0);
+            default:
+                printf("Invalid choice. Please try again.\n");
+        }
+    }
+
+    return 0;
+}
