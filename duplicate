@@ -1,0 +1,100 @@
+#include <stdio.h>
+#include <string.h>
+
+// Define a structure for a player
+typedef struct {
+    char name[50];
+    int age;
+    char position[20];
+} Player;
+
+// Function to add a player to the team
+void addPlayer(Player team[], int *playerCount) {
+    if (*playerCount >= 10) {
+        printf("The team is already full. Cannot add more players.\n");
+        return;
+    }
+
+    Player newPlayer;
+    printf("Enter player name: ");
+    scanf("%s", newPlayer.name);
+    printf("Enter player age: ");
+    scanf("%d", &newPlayer.age);
+    printf("Enter player position: ");
+    scanf("%s", newPlayer.position);
+
+    team[*playerCount] = newPlayer;
+    (*playerCount)++;
+
+    printf("Player added to the team.\n");
+}
+
+// Function to display all players in the team
+void displayTeam(Player team[], int playerCount) {
+    printf("Team Roster:\n");
+    for (int i = 0; i < playerCount; i++) {
+        printf("Player %d:\n", i + 1);
+        printf("Name: %s\n", team[i].name);
+        printf("Age: %d\n", team[i].age);
+        printf("Position: %s\n", team[i].position);
+        printf("\n");
+    }
+}
+
+// Function to search for a player by name
+void searchPlayer(Player team[], int playerCount) {
+    char searchName[50];
+    printf("Enter the player's name to search: ");
+    scanf("%s", searchName);
+
+    int found = 0;
+
+    for (int i = 0; i < playerCount; i++) {
+        if (strcmp(team[i].name, searchName) == 0) {
+            found = 1;
+            printf("Player found:\n");
+            printf("Name: %s\n", team[i].name);
+            printf("Age: %d\n", team[i].age);
+            printf("Position: %s\n", team[i].position);
+            break;
+        }
+    }
+
+    if (!found) {
+        printf("Player not found in the team.\n");
+    }
+}
+
+int main() {
+    Player team[10];
+    int playerCount = 0;
+    int choice;
+
+    while (1) {
+        printf("\nSports Team Management System\n");
+        printf("1. Add Player\n");
+        printf("2. Display Team\n");
+        printf("3. Search Player\n");
+        printf("4. Quit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                addPlayer(team, &playerCount);
+                break;
+            case 2:
+                displayTeam(team, playerCount);
+                break;
+            case 3:
+                searchPlayer(team, playerCount);
+                break;
+            case 4:
+                return 0;
+            default:
+                printf("Invalid choice. Please try again.\n");
+        }
+    }
+
+    return 0;
+}
